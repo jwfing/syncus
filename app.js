@@ -1,5 +1,6 @@
 'use strict';
 var domain = require('domain');
+var cookieSession = require('cookie-session')
 var express = require('express');
 var moment = require('moment-timezone');
 var path = require('path');
@@ -23,9 +24,13 @@ app.use(cloud);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 //app.use(express.cookieParser('eijxqwoid'));
 //app.use(express.bodyParser());
+
 app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', maxAge: 3600000, fetchUser: true }));
 app.use(flash());
 app.use(checkAuth);
@@ -77,6 +82,7 @@ app.post('/login', function(req, res, next) {
       res.redirect('/todos');
     },
     error: function(user, error) {
+      console.log('signin failed: %j', error);
       req.flash('error', error.message);
       res.redirect('/login');
     }
@@ -85,8 +91,8 @@ app.post('/login', function(req, res, next) {
 
 app.get('/login', function(req, res, next) {
   res.render('login', {
-//    errors: req.flash('error'),
-//    info: req.flash('info')
+    errors: req.flash('error'),
+    info: req.flash('info')
   });
 });
 
@@ -98,7 +104,7 @@ app.get('/logout', function(req, res, next) {
 });
 
 app.get('/register', function(req, res, next) {
-  res.render('register', {});
+  res.render('register', {errors: req.flash('error')});
 });
 
 app.post('/register', function(req, res, next) {
@@ -129,6 +135,22 @@ app.post('/register', function(req, res, next) {
     }
   });
 });
+
+app.post('/badluck', function( req, res ){
+  console.log(req.body)
+  var username = req.body.username;
+  AV.User.requestPasswordReset( username, {
+    success: function() {
+      req.flash('info','密码重设成功，请去邮箱 ' + username + ' 重设密码');
+      res.redirect('/login');
+    },
+    error: function(error) {
+      console.log( '[ERROR] /badluck :' + error.message);
+      req.flash('error','重设密码失败，用户名' + username + '是正确的吗？请联系jwu@leancloud.rocks');
+      res.redirect('/login');
+    }
+  });
+})
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', todos);
