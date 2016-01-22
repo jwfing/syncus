@@ -35,15 +35,19 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var content = req.body.content;
   var todo = new Todo();
-  todo.set('content', content);
-  todo.save(null, {
-    success: function(todo) {
-      res.redirect('/todos');
-    },
-    error: function(err) {
-      next(err);
-    }
-  })
+  if (content.length <= 0) {
+     next(new Error("can't add empty item"))
+  } else {
+    todo.set('content', content);
+    todo.save(null, {
+      success: function(todo) {
+        res.redirect('/todos');
+      },
+      error: function(err) {
+        next(err);
+      }
+    })
+  }
 })
 
 module.exports = router;
