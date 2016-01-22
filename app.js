@@ -96,7 +96,7 @@ app.get('/login', function(req, res, next) {
   });
 });
 
-app.get('/logout', function(req, res, next) {
+app.post('/logout', function(req, res, next) {
   req.session = null;
   AV.User.logOut();
   req._avos_session = null;
