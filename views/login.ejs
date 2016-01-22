@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Material Design -->
+    <link href="/stylesheets/bootstrap-material-design.css" rel="stylesheet">
+    <link href="/stylesheets/ripples.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>SyncUS -- 登录</title>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Nothing here now -->
+            <!-- @sparanoid Jan 28, 2015, 7:58 PM -->
+          </div>
+          <!-- .col-md-12 -->
+        </div>
+        <!-- .row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <form action="/login" method="post" class="form-signin" role="form">
+              <h2 class="font-logo text-center">SyncUS --- 登录</h2>
+              <div class="form-group">
+                <label for="username" class="sr-only">邮箱</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="邮箱" required autofocus>
+              </div>
+              <!-- .form-group -->
+              <div class="form-group">
+                <label for="password" class="sr-only">密码</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+              </div>
+              <!-- .form-group -->
+              <p><button class="btn btn-lg btn-primary btn-block" type="submit">登录</button></p>
+            </form>
+          </div>
+          <!-- .col-md-12 -->
+        </div>
+        <!-- .row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <p class="text-center"><a href="/register">没帐号？先注册</a> 或 <a onclick="badluck(); return false">输入用户名，点此重置密码</a></p>
+          </div>
+          <!-- .col-md-12 -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .col-md-4 col-md-offset-4 -->
+    </div>
+    <!-- .row -->
+
+  </div> <!-- /container -->
+</body>
+</html>

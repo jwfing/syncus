@@ -1,11 +1,14 @@
 'use strict';
 var domain = require('domain');
 var express = require('express');
+var moment = require('moment-timezone');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
+var flash = require('./flash');
+var AV = require('leanengine');
 
 var app = express();
 
@@ -20,6 +23,27 @@ app.use(cloud);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//app.use(express.cookieParser('eijxqwoid'));
+//app.use(express.bodyParser());
+app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', maxAge: 3600000, fetchUser: true }));
+app.use(flash());
+app.use(checkAuth);
+
+function checkAuth(req, res, next) {
+  if (req.path === '/login' ||
+      req.path === '/register' ||
+      req.path === '/badluck' ||
+      req.path.search('/js') === 0 ||
+      req.path.search('/css') === 0) {
+    next();
+  } else if (!AV.User.current()) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+}
+
 
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
@@ -43,7 +67,67 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
+  res.render('login', { currentTime: new Date() });
+});
+
+app.post('/login', function(req, res, next) {
+  AV.User.logIn(req.body.username, req.body.password, {
+    success: function(user) {
+      console.log('signin successfully: %j', user);
+      res.redirect('/todos');
+    },
+    error: function(user, error) {
+      req.flash('error', error.message);
+      res.redirect('/login');
+    }
+  });
+});
+
+app.get('/login', function(req, res, next) {
+  res.render('login', {
+//    errors: req.flash('error'),
+//    info: req.flash('info')
+  });
+});
+
+app.get('/logout', function(req, res, next) {
+  req.session = null;
+  AV.User.logOut();
+  req._avos_session = null;
+  res.redirect('/login');
+});
+
+app.get('/register', function(req, res, next) {
+  res.render('register', {});
+});
+
+app.post('/register', function(req, res, next) {
+  if (req.body.password !== req.body.repeat_password) {
+    req.flash('error', '两次密码输入不一致！');
+    res.redirect('/register');
+    return;
+  }
+  if (req.body.password.length < 6) {
+    req.flash('error', '密码至少要六位！');
+    res.redirect('/register');
+    return;
+  }
+
+  var user = new AV.User();
+  user.setUsername(req.body.username);
+  user.setPassword(req.body.password);
+  user.setEmail(req.body.username);
+
+  user.signUp(null, {
+    success: function(user) {
+      res.redirect('/login');
+    },
+    error: function(user, error) {
+      console.log('signin successfully: %j', error.message);
+      req.flash('error', error.message);
+      res.redirect('/register');
+    }
+  });
 });
 
 // 可以将一类的路由单独保存在一个文件中
