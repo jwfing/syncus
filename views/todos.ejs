@@ -9,13 +9,13 @@
   -->
 
     <!-- Bootstrap Material Design -->
-    <link href="http://ac-ebjr3wfn.clouddn.com/26c5cc13ecd4f33c.css" rel="stylesheet">
-    <link href="http://ac-ebjr3wfn.clouddn.com/875f5354eb56b9e0.css" rel="stylesheet">
-    <link href="http://ac-ebjr3wfn.clouddn.com/784732a4bb8fbf60.css" rel="stylesheet">
-    <link href="http://ac-ebjr3wfn.clouddn.com/abe464121b065c1c.css" rel="stylesheet">
+    <link href="https://ac-ebjr3wfn.clouddn.com/26c5cc13ecd4f33c.css" rel="stylesheet">
+    <link href="https://ac-ebjr3wfn.clouddn.com/875f5354eb56b9e0.css" rel="stylesheet">
+    <link href="https://ac-ebjr3wfn.clouddn.com/784732a4bb8fbf60.css" rel="stylesheet">
+    <link href="https://ac-ebjr3wfn.clouddn.com/abe464121b065c1c.css" rel="stylesheet">
 
     <title>SyncUS --- Todo</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://dn-ebjr3wfn.qbox.me/8a693e41ac0285fc.js"></script>
 
   </head>
   <body>
@@ -25,37 +25,53 @@
     <h1><%= title %></h1>
     <p/>
 
-    <div class="form-group label-floating">
-      <form class="form-horizontal" action="/todos" method="POST">
-        <label class="control-label" for="content">添加新的 TODO 事项，回车即确认</label>
-        <input type="text" class="form-control input-lg" name="content"/>
-      </form>
-    </div>
-
-    <p/>
-
-    <% for(var i=0; i<todos.length; i++) {%>
-
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h3><%= todos[i].get('content') %></h3>
-        </div>
-        <div class="panel-footer">
-          <div class="row">
-            <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
-            <div class="col-md-4">
-              <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
-                <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
-                <button class="btn btn-raised active" type="submit"><code>.finish</code></button>
-              </form>
-            </div>
-          </div>
-            
-          
-        </div>
+      <div class="form-group label-floating">
+        <form class="form-horizontal" action="/todos" method="POST">
+          <label class="control-label" for="content">添加新的 TODO 事项，回车即确认</label>
+          <input type="text" class="form-control input-lg" name="content"/>
+        </form>
       </div>
 
-    <% } %>
+      <p/>
+
+      <% for(var i=0; i<todos.length; i++) {%>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h3><%= todos[i].get('content') %></h3>
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
+              <div class="col-md-4">
+                <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
+                  <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
+                  <button class="btn btn-raised active" type="submit"><code>.finish</code></button>
+                </form>
+              </div>
+            </div>
+              
+            
+          </div>
+        </div>
+
+      <% } %>
+
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted" style="text-align: right;padding-right: 150px">powered by <a href="https://leancloud.cn" class="logo font-logo">LeanCloud</a></p>
+        </div>
+      </footer>
 
   </body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72792843-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </html>
