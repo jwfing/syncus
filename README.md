@@ -1,15 +1,15 @@
-# node-js-getting-started
+# syncus
 
 一个简单的使用 Express 4 的 Node.js 应用。
-可以运行在 LeanEngine Node.js 运行时环境。
+可以运行在 [LeanCloud](https://leancloud.cn/) 云引擎（Node.js）运行时环境。
 
 ## 本地运行
 
 首先确认本机已经安装 [Node.js](http://nodejs.org/) 运行环境和 [LeanCloud 命令行工具](https://leancloud.cn/docs/cloud_code_commandline.html)，然后执行下列指令：
 
 ```
-$ git clone git@github.com:leancloud/node-js-getting-started.git
-$ cd node-js-getting-started
+$ git clone git@github.com:jwfing/syncus.git
+$ cd syncus
 ```
 
 安装依赖：
