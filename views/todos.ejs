@@ -32,28 +32,29 @@
     </div>
 
     <p/>
-      <% for(var i=0; i<todos.length; i++) {%>
 
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h3><%= todos[i].get('content') %></h3>
-          </div>
-          <div class="panel-footer">
-            <div class="row">
-              <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
-              <div class="col-md-4">
-                <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
-                  <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
-                  <button class="btn btn-raised active" type="submit"><code>.finish</code></button>
-                </form>
-              </div>
-            </div>
-              
-            
-          </div>
+    <% for(var i=0; i<todos.length; i++) {%>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h3><%= todos[i].get('content') %></h3>
         </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
+            <div class="col-md-4">
+              <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
+                <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
+                <button class="btn btn-raised active" type="submit"><code>.finish</code></button>
+              </form>
+            </div>
+          </div>
+            
+          
+        </div>
+      </div>
 
-      <% } %>
+    <% } %>
 
   </body>
 </html>

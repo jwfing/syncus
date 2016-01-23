@@ -69,7 +69,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('login', { currentTime: new Date() });
+  res.redirect('/login');
 });
 
 app.post('/login', function(req, res, next) {
@@ -133,7 +133,6 @@ app.post('/register', function(req, res, next) {
 });
 
 app.post('/badluck', function( req, res ){
-  console.log(req.body)
   var username = req.body.username;
   AV.User.requestPasswordReset( username, {
     success: function() {

@@ -3,24 +3,23 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-    <!-- Material Design fonts -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Material Design fonts -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Material Design -->
-    <link href="/stylesheets/bootstrap-material-design.min.css" rel="stylesheet">
-    <link href="/stylesheets/ripples.min.css" rel="stylesheet">
-    <link href="/stylesheets/style.css" rel="stylesheet">
+  <!-- Bootstrap Material Design -->
+  <link href="/stylesheets/bootstrap-material-design.min.css" rel="stylesheet">
+  <link href="/stylesheets/ripples.min.css" rel="stylesheet">
+  <link href="/stylesheets/style.css" rel="stylesheet">
   <title>SyncUS -- 登录</title>
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script type="text/javascript">
 
     function badluck(){
       username = document.getElementById('username').value;
-      console.log( username );
       if ( username ){
         $.post( "badluck", { username: username } ).done(function(){
           alert('提交成功');
@@ -28,7 +27,7 @@
           alert( response.responseText );
         });
       } else {
-        alert('用户名为空，请先填写用户名');
+        alert('用户邮箱为空，请先填写邮箱');
       }
     }
 
@@ -38,16 +37,8 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-sm-4 col-sm-offset-4">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- Nothing here now -->
-            <!-- @sparanoid Jan 28, 2015, 7:58 PM -->
-          </div>
-          <!-- .col-md-12 -->
-        </div>
+      <div class="col-sm-4 col-sm-offset-2">
         <!-- .row -->
-
         <div class="row">
           <div class="col-md-12">
             <form action="/login" method="post" class="form-signin" role="form">
@@ -94,7 +85,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <p class="text-center"><a href="/register">没帐号？先注册</a> 或 <a onclick="badluck(); return false">输入用户名，点此重置密码</a></p>
+            <p class="text-center"><a href="/register" >没帐号？先注册</a> 或 <a onclick="badluck(); return false">输入用户名，点此重置密码</a></p>
           </div>
           <!-- .col-md-12 -->
         </div>
