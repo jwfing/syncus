@@ -29,7 +29,7 @@ app.use(cookieSession({
   keys: ['foo', 'bar']
 }))
 
-app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', maxAge: 3600000, fetchUser: true }));
+app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', name:"leanapp.syncus", maxAge: 36000000, fetchUser: true }));
 app.use(flash());
 app.use(checkAuth);
 
