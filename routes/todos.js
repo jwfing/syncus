@@ -10,23 +10,20 @@ var Todo = AV.Object.extend('Todo');
 router.get('/', function(req, res, next) {
   var query = new AV.Query(Todo);
   var currentUsr = req.AV.user;
-  console.log(currentUsr.get('username'))
   query.equalTo("status", 0);
   query.equalTo("owner", AV.User.createWithoutData("_User", currentUsr.id));
   query.ascending('createdAt');
   query.find({
     success: function(results) {
       res.render('todos', {
-        title: currentUsr.get('username'),
+        title: currentUsr.get('username').toUpperCase(),
         todos: results
       });
     },
     error: function(err) {
       if (err.code === 101) {
-        // 该错误的信息为：{ code: 101, message: 'Class or object doesn\'t exists.' }，说明 Todo 数据表还未创建，所以返回空的 Todo 列表。
-        // 具体的错误代码详见：https://leancloud.cn/docs/error_code.html
         res.render('todos', {
-          title: currentUsr.get('username'),
+          title: currentUsr.get('username').toUpperCase(),
           todos: []
         });
       } else {
@@ -47,6 +44,10 @@ router.post('/', function(req, res, next) {
     todo.set('content', content);
     todo.set('status', 0);
     todo.set('owner', AV.User.createWithoutData("_User", currentUsr.id));
+    var todoACL = new AV.ACL(currentUsr);
+    todoACL.setPublicReadAccess(false);
+    todoACL.setPublicWriteAccess(false);
+    todo.setACL(todoACL);
     todo.save(null, {
       success: function(todo) {
         res.redirect('/todos');
@@ -58,12 +59,12 @@ router.post('/', function(req, res, next) {
   }
 })
 
-// 新增 Todo 项目
+// 完成 Todo 项目
 router.post('/done', function(req, res, next) {
   var itemId = req.body.itemId;
   var todo = AV.Object.createWithoutData('Todo', itemId);
   if (itemId.length <= 0) {
-     next(new Error("can't add empty item"))
+     next(new Error("please specific todo item"))
   } else {
     todo.set('status', 2);
     todo.save(null, {

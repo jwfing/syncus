@@ -8,7 +8,7 @@
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Material Design -->
     <link href="/stylesheets/bootstrap-material-design.min.css" rel="stylesheet">
@@ -51,17 +51,19 @@
         <div class="row">
           <div class="col-md-12">
             <form action="/login" method="post" class="form-signin" role="form">
-              <h2 class="font-logo text-center">SyncUS --- 登录</h2>
+              <h2 class="font-logo text-center">用户登录</h2>
 
               <% if (info.length > 0) { %>
-                <div class="callout callout-danger">
+                <div class="alert alert-dismissible alert-info">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
                   <% for (var i = 0; i < info.length; i++) { %>
                     <p><%= info[i] %></p>
                   <% } %>
                 </div>
               <% } %>
               <% if (errors.length > 0) { %>
-                <div class="callout callout-danger">
+                <div class="alert alert-dismissible alert-warning">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
                   <% for (var i = 0; i < errors.length; i++) { %>
                     <p><%= errors[i] %></p>
                   <% } %>
@@ -69,13 +71,18 @@
               <% } %>
 
               <div class="form-group">
-                <label for="username" class="sr-only">邮箱</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="邮箱" required autofocus>
+                <label for="inputEmail" class="col-md-2 control-label">Email</label>
+
+                <div class="col-md-10">
+                  <input type="email" class="form-control" id="username" name="username" placeholder="Email" required autofocus>
+                </div>
               </div>
-              <!-- .form-group -->
               <div class="form-group">
-                <label for="password" class="sr-only">密码</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+                <label for="inputPassword" class="col-md-2 control-label">Password</label>
+
+                <div class="col-md-10">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
               </div>
               <!-- .form-group -->
               <p><button class="btn btn-lg btn-primary btn-block" type="submit">登录</button></p>

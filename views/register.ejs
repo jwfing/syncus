@@ -7,7 +7,7 @@
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Material Design -->
     <link href="/stylesheets/bootstrap-material-design.min.css" rel="stylesheet">
@@ -32,10 +32,11 @@
         <div class="row">
           <div class="col-md-12">
             <form action="/register" method="post" class="form-signin" role="form">
-              <h2 class="font-logo text-center">SyncUS --- 注册</h2>
+              <h2 class="font-logo text-center">账户注册</h2>
 
               <% if (errors.length > 0) { %>
-                <div class="callout callout-danger">
+                <div class="alert alert-dismissible alert-warning">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
                   <% for (var i = 0; i < errors.length; i++) { %>
                     <p><%= errors[i] %></p>
                   <% } %>
@@ -43,17 +44,17 @@
               <% } %>
 
               <div class="form-group">
-                <label for="username" class="sr-only">邮箱</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="邮箱" required autofocus>
+                <label for="username" class="sr-only">Email</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Email" required autofocus>
               </div>
               <!-- .form-group -->
               <div class="form-group">
-                <label for="password" class="sr-only">密码</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
               </div>
               <!-- .form-group -->
               <div class="form-group">
-                <label for="repeat_password" class="sr-only">重复密码</label>
+                <label for="repeat_password" class="sr-only">Repeat Password</label>
                 <input type="password" class="form-control" id="repeat_password" name="repeat_password" placeholder="重复密码" required>
               </div>
               <!-- .form-group -->

@@ -26,10 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cookieSession({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: ['foo', 'bar']
 }))
-//app.use(express.cookieParser('eijxqwoid'));
-//app.use(express.bodyParser());
 
 app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', maxAge: 3600000, fetchUser: true }));
 app.use(flash());
@@ -40,7 +38,7 @@ function checkAuth(req, res, next) {
       req.path === '/register' ||
       req.path === '/badluck' ||
       req.path.search('/js') === 0 ||
-      req.path.search('/css') === 0) {
+      req.path.search('/stylesheets') === 0) {
     next();
   } else if (!AV.User.current()) {
     res.redirect('/login');
@@ -48,7 +46,6 @@ function checkAuth(req, res, next) {
     next();
   }
 }
-
 
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
@@ -78,12 +75,11 @@ app.get('/', function(req, res) {
 app.post('/login', function(req, res, next) {
   AV.User.logIn(req.body.username, req.body.password, {
     success: function(user) {
-      console.log('signin successfully: %j', user);
       res.redirect('/todos');
     },
     error: function(user, error) {
-      console.log('signin failed: %j', error);
-      req.flash('error', error.message);
+      console.log('[ERROR] /login failed: %j', error.message);
+      req.flash('errors', error.message);
       res.redirect('/login');
     }
   });
@@ -91,7 +87,7 @@ app.post('/login', function(req, res, next) {
 
 app.get('/login', function(req, res, next) {
   res.render('login', {
-    errors: req.flash('error'),
+    errors: req.flash('errors'),
     info: req.flash('info')
   });
 });
@@ -104,32 +100,32 @@ app.post('/logout', function(req, res, next) {
 });
 
 app.get('/register', function(req, res, next) {
-  res.render('register', {errors: req.flash('error')});
+  res.render('register', {errors: req.flash('errors')});
 });
 
 app.post('/register', function(req, res, next) {
   if (req.body.password !== req.body.repeat_password) {
-    req.flash('error', '两次密码输入不一致！');
+    req.flash('errors', '两次密码输入不一致！');
     res.redirect('/register');
     return;
   }
   if (req.body.password.length < 6) {
-    req.flash('error', '密码至少要六位！');
+    req.flash('errors', '密码至少要六位！');
     res.redirect('/register');
     return;
   }
 
   var user = new AV.User();
   user.setUsername(req.body.username);
-  user.setPassword(req.body.password);
   user.setEmail(req.body.username);
+  user.setPassword(req.body.password);
 
   user.signUp(null, {
     success: function(user) {
       res.redirect('/login');
     },
     error: function(user, error) {
-      console.log('signin successfully: %j', error.message);
+      console.log('[ERROR] /register failed: %j', error.message);
       req.flash('error', error.message);
       res.redirect('/register');
     }
@@ -145,8 +141,8 @@ app.post('/badluck', function( req, res ){
       res.redirect('/login');
     },
     error: function(error) {
-      console.log( '[ERROR] /badluck :' + error.message);
-      req.flash('error','重设密码失败，用户名' + username + '是正确的吗？请联系jwu@leancloud.rocks');
+      console.log( '[ERROR] /badluck failed: ' + error.message);
+      req.flash('errors','重设密码失败，用户名' + username + '是正确的吗？');
       res.redirect('/login');
     }
   });
