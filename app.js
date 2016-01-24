@@ -29,7 +29,7 @@ app.use(cookieSession({
   keys: ['foo', 'bar']
 }))
 
-app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', name:"leanapp.syncus", maxAge: 36000000, fetchUser: true }));
+app.use(AV.Cloud.CookieSession({ secret: '05b88fe4d66e1e6a80f557186d055949', name:"leanapp.syncus", maxAge: 3600000*24*7, fetchUser: false }));
 app.use(flash());
 app.use(checkAuth);
 
@@ -75,10 +75,12 @@ app.get('/', function(req, res) {
 app.post('/login', function(req, res, next) {
   AV.User.logIn(req.body.username, req.body.password, {
     success: function(user) {
+      res.cookie('syncMail', req.body.username, {maxAge:60*1000*24*7})
       res.redirect('/todos');
     },
     error: function(user, error) {
       console.log('[ERROR] /login failed: %j', error.message);
+      res.cookie('syncMail', "", {maxAge:60*1000*24*7})
       req.flash('errors', error.message);
       res.redirect('/login');
     }
@@ -94,6 +96,7 @@ app.get('/login', function(req, res, next) {
 
 app.post('/logout', function(req, res, next) {
   req.session = null;
+  res.cookie('syncMail', "", {maxAge:60*1000*24*7})
   AV.User.logOut();
   req._avos_session = null;
   res.redirect('/login');

@@ -16,14 +16,14 @@ router.get('/', function(req, res, next) {
   query.find({
     success: function(results) {
       res.render('todos', {
-        title: currentUsr.get('username').toUpperCase(),
+        title: req.cookies.syncMail.toUpperCase(),
         todos: results
       });
     },
     error: function(err) {
       if (err.code === 101) {
         res.render('todos', {
-          title: currentUsr.get('username').toUpperCase(),
+          title: req.cookies.syncMail.toUpperCase(),
           todos: []
         });
       } else {
