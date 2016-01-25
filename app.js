@@ -75,12 +75,12 @@ app.get('/', function(req, res) {
 app.post('/login', function(req, res, next) {
   AV.User.logIn(req.body.username, req.body.password, {
     success: function(user) {
-      res.cookie('syncMail', req.body.username, {maxAge:60*1000*24*7})
+      res.cookie('syncMail', req.body.username)
       res.redirect('/todos');
     },
     error: function(user, error) {
       console.log('[ERROR] /login failed: %j', error.message);
-      res.cookie('syncMail', "", {maxAge:60*1000*24*7})
+      res.cookie('syncMail', "")
       req.flash('errors', error.message);
       res.redirect('/login');
     }
