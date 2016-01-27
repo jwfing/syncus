@@ -15,16 +15,48 @@ router.get('/', function(req, res, next) {
   query.ascending('createdAt');
   query.find({
     success: function(results) {
-      res.render('todos', {
-        title: req.cookies.syncMail,
-        todos: results
+      var doneQuery = new AV.Query(Todo);
+      doneQuery.equalTo("status", 2);
+      doneQuery.equalTo("owner", AV.User.createWithoutData("_User", currentUsr.id));
+      doneQuery.descending('updatedAt');
+      doneQuery.limit(50)
+      doneQuery.find({
+        success: function(doneItems) {
+          res.render('todos', {
+            title: req.cookies.syncMail,
+            todos: results.map(function(obj) {
+              obj.createdAt = moment(obj.createdAt).format("MMM Do YY")
+              obj.updatedAt = moment(obj.updatedAt).format("MMM Do YY")
+              return obj;
+            }),
+            dones: doneItems.map(function(obj) {
+              obj.createdAt = moment(obj.createdAt).format("MMM Do YY")
+              obj.updatedAt = moment(obj.updatedAt).format("MMM Do YY")
+              return obj;
+            })
+          });
+        },
+        error: function(err) {
+          console.error("failed to retrieve finished todo item for user: " + currentUsr.id);
+          res.render('todos', {
+            title: req.cookies.syncMail,
+            todos: results.map(function(obj) {
+              obj.createdAt = moment(obj.createdAt).format("MMM Do YY")
+              obj.updatedAt = moment(obj.updatedAt).format("MMM Do YY")
+              return obj;
+            }),
+            dones: []
+          });
+        }
       });
     },
     error: function(err) {
+      console.error("failed to retrieve todo item for user: " + currentUsr.id);
       if (err.code === 101) {
         res.render('todos', {
           title: req.cookies.syncMail,
-          todos: []
+          todos: [],
+          dones: []
         });
       } else {
         next(err);
@@ -53,6 +85,7 @@ router.post('/', function(req, res, next) {
         res.redirect('/todos');
       },
       error: function(err) {
+        console.error("failed to update todo item. cause: " + err.message)
         next(err);
       }
     })

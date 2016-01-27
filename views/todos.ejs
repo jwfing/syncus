@@ -12,13 +12,16 @@
     <link href="https://dn-ebjr3wfn.qbox.me/26c5cc13ecd4f33c.css" rel="stylesheet">
     <link href="https://dn-ebjr3wfn.qbox.me/875f5354eb56b9e0.css" rel="stylesheet">
     <link href="https://dn-ebjr3wfn.qbox.me/784732a4bb8fbf60.css" rel="stylesheet">
-    <link href="https://dn-ebjr3wfn.qbox.me/abe464121b065c1c.css" rel="stylesheet">
+    <link href="https://dn-ebjr3wfn.qbox.me/52c6cebf26d7b343.css" rel="stylesheet">
 
     <title>SyncUS --- Todo</title>
     <script type="text/javascript" src="https://dn-ebjr3wfn.qbox.me/8a693e41ac0285fc.js"></script>
 
   </head>
   <body>
+
+<div class="container">
+  <div class="row">
     <form action="/logout" method="post" class="form-signin" role="form">
       <button class="btn btn-raised btn-link pull-right" type="submit">Logout</button>
     </form>
@@ -32,8 +35,10 @@
         </form>
       </div>
 
-      <p/>
-
+    <p/>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
       <% for(var i=0; i<todos.length; i++) {%>
 
         <div class="panel panel-default">
@@ -50,18 +55,31 @@
                 </form>
               </div>
             </div>
-              
-            
           </div>
         </div>
 
       <% } %>
-
-      <footer class="footer">
-        <div class="container">
-          <p class="text-muted" style="text-align: right;padding-right: 150px">powered by <a href="https://leancloud.cn" class="logo font-logo">LeanCloud</a></p>
+    </div>
+    <div class="col-md-4">
+      <h4>最近完成</h4>
+      <div class="list-group">
+      <% for(var i=0; i<dones.length; i++) {%>
+        <div class="list-group-item">
+          <span class="badge"><%= dones[i].updatedAt %></span>
+          <p><%= dones[i].get('content') %></p>
         </div>
-      </footer>
+      <% } %>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <footer class="footer">
+      <p class="text-muted" style="text-align: right;padding-right: 150px">powered by <a href="https://leancloud.cn" class="logo font-logo">LeanCloud</a></p>
+    </footer>
+  </div>
+</div>
+
 
   </body>
 <script>
