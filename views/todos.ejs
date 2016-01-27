@@ -16,6 +16,15 @@
 
     <title>SyncUS --- Todo</title>
     <script type="text/javascript" src="https://dn-ebjr3wfn.qbox.me/8a693e41ac0285fc.js"></script>
+    <style type="text/css">
+      .panel-footer .row {
+        margin-top: -10px;
+        max-height: 40px
+      }
+      .panel-footer .row .form {
+        max-height: 35px
+      }
+    </style>
 
   </head>
   <body>
@@ -51,7 +60,7 @@
               <div class="col-md-4">
                 <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
                   <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
-                  <button class="btn btn-raised active" type="submit"><code>.finish</code></button>
+                  <button class="btn btn-sm active" type="submit"><code>.finish</code></button>
                 </form>
               </div>
             </div>
