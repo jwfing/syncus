@@ -24,72 +24,88 @@
       .panel-footer .row .form {
         max-height: 35px
       }
+      .footer {
+        bottom: 0;
+        width: 100%;
+        height: 40px;
+      }
+      .font-logo{
+        font-family:radikal,"Helvetica Neue",Helvetica,"PingFang SC","Microsoft Yahei","WenQuanYi Micro Hei",Arial,Verdana,sans-serif;
+        font-weight:400
+      }
+
     </style>
 
   </head>
   <body>
 
-<div class="container">
-  <div class="row">
-    <form action="/logout" method="post" class="form-signin" role="form">
-      <button class="btn btn-raised btn-link pull-right" type="submit">Logout</button>
-    </form>
-    <h1><%= title %></h1>
-    <p/>
-
-      <div class="form-group label-floating">
-        <form class="form-horizontal" action="/todos" method="POST">
-          <label class="control-label" for="content">添加新的 TODO 事项，回车即确认</label>
-          <input type="text" class="form-control input-lg" name="content"/>
+    <div class="container">
+      <div class="row">
+        <form action="/logout" method="post" class="form-signin" role="form">
+          <button class="btn btn-raised btn-link pull-right" type="submit">Logout</button>
         </form>
-      </div>
+        <h1><%= title %></h1>
+        <p/>
 
-    <p/>
-  </div>
-  <div class="row">
-    <div class="col-md-8">
-      <% for(var i=0; i<todos.length; i++) {%>
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h3><%= todos[i].get('content') %></h3>
+          <div class="form-group label-floating">
+            <form class="form-horizontal" action="/todos" method="POST">
+              <label class="control-label" for="content">添加新的 TODO 事项，回车即确认</label>
+              <input type="text" class="form-control input-lg" name="content"/>
+            </form>
           </div>
-          <div class="panel-footer">
-            <div class="row">
-              <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
-              <div class="col-md-4">
-                <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
-                  <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
-                  <button class="btn btn-sm active" type="submit"><code>.finish</code></button>
-                </form>
+
+        <p/>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <% for(var i=0; i<todos.length; i++) {%>
+
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h3><%= todos[i].get('content') %></h3>
+              </div>
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
+                  <div class="col-md-4">
+                    <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
+                      <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
+                      <button class="btn btn-sm active" type="submit"><code>.finish</code></button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
+
+          <% } %>
+        </div>
+        <div class="col-md-4">
+          <h4>最近完成</h4>
+          <div class="list-group">
+          <% for(var i=0; i<dones.length; i++) {%>
+            <div class="well well-sm">
+              <span class="label label-success pull-right"><%= dones[i].updatedAt %></span>
+              <p><%= dones[i].get('content') %></p>
+            </div>
+          <% } %>
           </div>
-        </div>
 
-      <% } %>
-    </div>
-    <div class="col-md-4">
-      <h4>最近完成</h4>
-      <div class="list-group">
-      <% for(var i=0; i<dones.length; i++) {%>
-        <div class="list-group-item">
-          <span class="badge"><%= dones[i].updatedAt %></span>
-          <p><%= dones[i].get('content') %></p>
         </div>
-      <% } %>
       </div>
-
     </div>
-  </div>
-  <div class="row">
     <footer class="footer">
-      <p class="text-muted" style="text-align: right;padding-right: 150px">powered by <a href="https://leancloud.cn" class="logo font-logo">LeanCloud</a></p>
+      <div class="container-fluid">
+        <div class="col-md-4">
+          <a href="https://github.com/jwfing/syncus"></i>Project Source</a>
+        </div>
+        <div class="col-md-4">
+          <a href="https://github.com/jwfing/todo_ntp">Chrome Extension Source</a>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted" style="text-align: right;padding-right: 50px">powered by <a href="https://leancloud.cn" class="logo font-logo">LeanCloud</a></p>
+        </div>
+      </div>
     </footer>
-  </div>
-</div>
-
-
   </body>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
