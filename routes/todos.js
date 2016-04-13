@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   var currentUsr = req.AV.user;
   query.equalTo("status", 0);
   query.equalTo("owner", AV.User.createWithoutData("_User", currentUsr.id));
-  query.ascending('createdAt');
+  query.descending('createdAt');
   query.find({
     success: function(results) {
       var doneQuery = new AV.Query(Todo);
