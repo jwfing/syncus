@@ -16,6 +16,8 @@
 
     <title>SyncUS --- Todo</title>
     <script type="text/javascript" src="https://lc-ebjr3wfn.cn-n1.lcfile.com/8a693e41ac0285fc.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style type="text/css">
       .panel-footer .row {
         margin-top: -10px;
@@ -34,6 +36,10 @@
         font-weight:400
       }
 
+      /* show the move cursor as the user moves the mouse over the panel header.*/
+      #draggablePanelList .panel-body {
+          cursor: move;
+      }
     </style>
 
   </head>
@@ -58,26 +64,25 @@
       </div>
       <div class="row">
         <div class="col-md-8">
-          <% for(var i=0; i<todos.length; i++) {%>
-
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h3><%= todos[i].get('content') %></h3>
-              </div>
+          <ul id="draggablePanelList" class="list-unstyled">
+            <% for(var i=0; i<todos.length; i++) {%>
+            <li class="panel panel-default">
+              <div class="panel-body"><%= todos[i].get('content') %></div>
               <div class="panel-footer">
                 <div class="row">
                   <div class="col-md-8"><h6><%= todos[i].createdAt %></h6></div>
                   <div class="col-md-4">
                     <form action="/todos/done" method="post" class="form-signin pull-right" role="form">
                       <input type="hidden" class="form-control" id="itemId" name="itemId" value="<%=todos[i].id%>">
+                      <input type="hidden" id="orindex" name="orindex" value="<%=i%>">
                       <button class="btn btn-sm active" type="submit">完成</button>
                     </form>
                   </div>
                 </div>
               </div>
-            </div>
-
-          <% } %>
+            </li>
+            <% } %>
+          </ul>
         </div>
         <div class="col-md-4">
           <h4>最近完成</h4>
@@ -116,5 +121,29 @@
   ga('create', 'UA-72792843-1', 'auto');
   ga('send', 'pageview');
 
+  jQuery(function($) {
+    var panelList = $('#draggablePanelList');
+
+    panelList.sortable({
+      // Only make the .panel-body child elements support dragging.
+      // Omit this to make then entire <li>...</li> draggable.
+      handle: '.panel-body', 
+      update: function() {
+        $('.panel', panelList).each(function(index, elem) {
+          var listItem = $(elem),
+          newIndex = listItem.index();
+          $('input#orindex', listItem).each(function(index) {
+            var orindex = $(this)[0].value;
+            
+            if (newIndex != orindex) {
+              // Persist the new indices.
+              console.log("old index: " + orindex + ", new index: " + newIndex);
+            }
+          });
+        });
+        console.log("process all.");
+      }
+    });
+  });
 </script>
 </html>
