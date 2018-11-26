@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   var currentUsr = req.AV.user;
   query.equalTo("status", 0);
   query.equalTo("owner", AV.User.createWithoutData("_User", currentUsr.id));
-  query.descending('createdAt');
+  query.descending('displayOrder');
   query.find({
     success: function(results) {
       var doneQuery = new AV.Query(Todo);
@@ -76,6 +76,7 @@ router.post('/', function(req, res, next) {
     todo.set('content', content);
     todo.set('status', 0);
     todo.set('owner', AV.User.createWithoutData("_User", currentUsr.id));
+    todo.set('displayOrder', new Date()*1);
     var todoACL = new AV.ACL(currentUsr);
     todoACL.setPublicReadAccess(false);
     todoACL.setPublicWriteAccess(false);
